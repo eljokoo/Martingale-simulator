@@ -28,9 +28,10 @@ function martingaleCom(capital, tries, bet, people) {
       for(let j = 0; j < tries; j++) {
          if (Math.random() <= 0.5135) {
             tempCapital = tempCapital - bet_val;
-            bet_val = bet_val * 2;
-            if (bet_val * 2 > 300) {
+            if (bet_val * 2 > 500) {
                bet_val = bet;
+            } else {
+               bet_val = bet_val * 2;
             }
          } else {
             tempCapital = tempCapital + bet_val;
