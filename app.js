@@ -1,22 +1,30 @@
 let button = document.getElementById('sim');
 
+// Define action on pressing simulate
 button.addEventListener('click', () => {
+   // Read simulation values
    let capital = parseInt(document.getElementById('capital').value);
    let tries = parseInt(document.getElementById('tries').value);
    let bet = parseInt(document.getElementById('bet').value); 
    let people = parseInt(document.getElementById('persons').value)
 
+   // Check if values are empty
    if(isNaN(capital) || isNaN(tries) || isNaN(bet) || isNaN(people))
       alert('Enter values into the fields first!');
    else
-      console.log(martingaleCom(capital, tries, bet, people));
+      // If not, proceed with rendering the chart with given values
       renderChart(martingaleCom(capital, tries, bet, people));
 });
 
+// Function to compute the Martingale Simulation for all attempts
 function martingaleCom(capital, tries, bet, people) {
    let valueArray = [];
+   
    for(let i = 0; i < people; i++) {
       let tempCapital = capital;
+      
+      // Array to store the points at a certain attempt - start at attempt
+      // 0 with initial capital
       let tempArray = [
          {
             x: 0,
@@ -25,43 +33,51 @@ function martingaleCom(capital, tries, bet, people) {
       ];
       let bet_val = bet;
    
+      // Go through each attempt and calculate tempArray
       for(let j = 0; j < tries; j++) {
+         // Check if bet is successful (18/37) chance
          if (Math.random() <= 0.5135) {
+            // If bet is unsuccessful, subtract bet value and set new one
             tempCapital = tempCapital - bet_val;
+            
             if (bet_val * 2 > 500) {
+               // 500 is the casino bet limit, reset to initial bet
                bet_val = bet;
             } else {
+               // Double bet if under limit
                bet_val = bet_val * 2;
             }
          } else {
+            // If bet is successful, add value to capital and reset to initial bet
             tempCapital = tempCapital + bet_val;
             bet_val = bet;
          }
    
+         // Add attempt to tempArray
          tempArray.push({
             x: j + 1,
             y: tempCapital
          });
       }
 
+      // Create results entry for better in simulation array
       valueArray.push({
          name: `Better ${i + 1}`,
          points: tempArray
       });
    }
    
-
+   // Return simulation values array
    return valueArray;
 }
 
+// Function to render the chart based on simulation array
 function renderChart(series) {
 	JSC.Chart('chartDiv', {
 		title_label_text: 'Martingale Simulation',
 		annotations: [{
-			// label_text: 'Source: National Center for Health Statistics',
-			// position: 'bottom left'
+
       }],
-      /*X Axis Time Zoom limit*/
       xAxis: { 
          formatString: 'n1', 
          scale_zoomLimit: 1 
@@ -109,10 +125,5 @@ function renderChart(series) {
            } 
          } 
        }, 
-      // yAxis: {
-      //    scale: {
-      //       range: [0, 2000000000]
-      //    }
-      // }
 	});
 }
