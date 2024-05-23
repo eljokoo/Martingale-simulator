@@ -1,5 +1,7 @@
 # Martingale-simulator
 
+[deployed link](https://martingale-simulator.onrender.com)
+
 A simple website that allows users to simulate betters using the Martingale Betting System on roulette spins and displays winnings/losses on a graph using JSCharting. [Here](https://www.techopedia.com/gambling-guides/martingale-betting-system) is an explanation of the Martingale Betting System and some of the issues with it.
 
 ## Capital
